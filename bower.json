@@ -1,0 +1,7 @@
+{
+  "name": "reex-test",
+  "version": "0.1.0",
+  "devDependencies": {
+    "requirejs": "^2.3.4"
+  }
+}
