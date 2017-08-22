@@ -14,11 +14,12 @@ app.set('views', path.join(__dirname + '/../client/views'));
 app.set('view engine', 'pug');
 
 app.use(express.static('src/client'));
+app.use('/bower_components', express.static('bower_components'));
+
 app.use(logger('dev'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/bower_components', express.static('bower_components'));
 
 app.use('/', index);
 
