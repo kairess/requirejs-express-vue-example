@@ -22,12 +22,10 @@
             <a class="card-footer-item">Delete</a>
         </footer>
     </div>
-
 </template>
 
 <script>
-define(["Vue"], function(Vue) {
-
+define(['Vue', 'cs!example-component'], function(Vue, example) {
     var result = {
         template: template,
         data: function() {
@@ -35,6 +33,13 @@ define(["Vue"], function(Vue) {
             return {
                 loaded: time
             };
+        },
+        mounted: function() {
+            console.log('mounted');
+        },
+        activated: function() {
+            var t = new example('hellohello');
+            console.log(t.getMessage() + " " + new Date());
         }
     };
 

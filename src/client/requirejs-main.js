@@ -12,24 +12,39 @@ define([], function() {
                 name: 'coffee-script',
                 location: '../../../bower_components/coffeescript',
                 main: 'extras/coffee-script'
+            },
+            {
+                name: 'Vue',
+                location: '../../../bower_components/vue',
+                main: 'dist/vue.min.js'
+            },
+            {
+                name: 'vue',
+                location: '../../../bower_components/require-vuejs',
+                main: 'dist/require-vuejs.min.js'
+            },
+            {
+                name: 'vue-router',
+                location: '../../../bower_components/vue-router',
+                main: 'dist/vue-router.min.js'
             }
         ],
         nodeRequire: require,
-        shim: {
-            "Vue": { "exports": "Vue" }
-        },
-        paths: {
-            'Vue': 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.1/vue.min',
-            "vue": 'https://rawgit.com/edgardleal/require-vue/master/dist/require-vuejs',
-            'vue-router': '../../../bower_components/vue-router/dist/vue-router'
-        }
+        paths: {}
     });
 
-    requirejs(['Vue', 'vue-router'], function(Vue, VueRouter) {
+    require(['Vue', 'vue-router', 'cs!app'], function(Vue, VueRouter, app) {
         Vue.use(VueRouter);
-        var asyncComp = function(componentName) {
+        var asyncComp = function(components) {
+            var componentsArray = [];
+            if (typeof components === 'string') {
+                componentsArray = [components];
+            } else if (typeof components === 'object') {
+                componentsArray = components;
+            }
+
             return function(resolve) {
-                require([componentName], resolve);
+                require(componentsArray, resolve);
             };
         };
 
@@ -38,7 +53,7 @@ define([], function() {
                 { path: "/", component: asyncComp("vue!/views/home") },
                 { path: "/html", component: asyncComp("vue!/views/component.html") },
                 { path: "/vue", component: asyncComp("vue!/views/component") },
-                { path: "/async", component: asyncComp("vue!/views/async") },
+                { path: "/async", component: asyncComp(["vue!/views/async", "cs!/script/example-component"]) },
             ]
         });
 
